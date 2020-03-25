@@ -93,7 +93,6 @@ to get an output like this:
 Existing package recipes:
 
 matchpoint/0.1
-
 ```
 
 You have now successfully installed MatchPoint into your local cache.
