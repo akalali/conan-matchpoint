@@ -1,0 +1,129 @@
+trigger:
+- master
+
+jobs:
+# WINDOWS JOB DEFINITION
+- job:
+  displayName: Windows
+  timeoutInMinutes: 0
+  pool:
+    vmImage: 'vs2017-win2016 '
+  strategy:
+    matrix:
+      Debug:
+        BuildType: Debug
+      Release:
+        BuildType: Release
+
+  steps:
+  - script: |
+      python -m pip install conan==1.22.2
+    workingDirectory: '$(Agent.BuildDirectory)'
+    displayName: 'Install Conan'
+
+  - script: |
+      conan remote list
+      conan search matchpoint
+    workingDirectory: '$(Agent.BuildDirectory)'
+    displayName: 'Test Conan'
+
+  - task: ArtifactoryConan@1
+    inputs:
+      conanCommand: 'Create'
+      createPath: 'itk'
+      createReference: 'dkfz/testing'
+      extraArguments: '-s build_type=$(BuildType)'
+      buildName: '$(Build.DefinitionName)'
+      buildNumber: '$(Build.BuildNumber)'
+    displayName: Conan create itk
+
+  - script: |
+      conan search itk
+    workingDirectory: '$(Agent.BuildDirectory)'
+    displayName: 'Find itk package'
+
+  - task: ArtifactoryConan@1
+    inputs:
+      conanCommand: 'Create'
+      createPath: 'matchpoint'
+      createReference: 'dkfz/testing'
+      extraArguments: '-s build_type=$(BuildType)'
+      buildName: '$(Build.DefinitionName)'
+      buildNumber: '$(Build.BuildNumber)'
+    displayName: Conan create matchpoint
+
+  - script: |
+      conan search matchpoint
+    workingDirectory: '$(Agent.BuildDirectory)'
+    displayName: 'Find matchpoint package'
+
+  - script: |
+      conan search
+    workingDirectory: '$(Agent.BuildDirectory)'
+    displayName: 'Find all packages'
+
+# LINUX JOB DEFINITION
+- job:
+  displayName: Ubuntu
+  timeoutInMinutes: 0
+  pool:
+    vmImage: 'ubuntu-18.04'
+  strategy:
+    matrix:
+      Debug:
+        BuildType: Debug
+      Release:
+        BuildType: Release
+
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.6'
+      addToPath: true
+      architecture: 'x64'
+  
+  - script: |
+      python -m pip install --upgrade pip setuptools wheel
+      python -m pip install conan==1.22.2
+    displayName: 'Install Conan'
+
+  - script: |
+      conan remote list
+      conan search matchpoint
+    workingDirectory: '$(Agent.BuildDirectory)'
+    displayName: 'Test Conan'
+
+  - task: ArtifactoryConan@1
+    inputs:
+      conanCommand: 'Create'
+      createPath: 'itk'
+      createReference: 'dkfz/testing'
+      extraArguments: '-s build_type=$(BuildType) -tf=None'
+      buildName: '$(Build.DefinitionName)'
+      buildNumber: '$(Build.BuildNumber)'
+    displayName: Conan create itk
+
+  - script: |
+      conan search itk
+    workingDirectory: '$(Agent.BuildDirectory)'
+    displayName: 'Find itk package'
+
+  - task: ArtifactoryConan@1
+    inputs:
+      conanCommand: 'Create'
+      createPath: 'matchpoint'
+      createReference: 'dkfz/testing'
+      extraArguments: '-s build_type=$(BuildType)'
+      buildName: '$(Build.DefinitionName)'
+      buildNumber: '$(Build.BuildNumber)'
+    displayName: Conan create matchpoint
+
+  - script: |
+      conan search matchpoint
+    workingDirectory: '$(Agent.BuildDirectory)'
+    displayName: 'Find matchpoint package'
+
+  - script: |
+      conan search
+    workingDirectory: '$(Agent.BuildDirectory)'
+    displayName: 'Find all packages'
