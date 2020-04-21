@@ -4,8 +4,7 @@ project(PackageTest CXX)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-include_directories(${CONAN_INCLUDE_DIRS_ITK})
-
 add_executable(example example.cpp)
 
-target_link_libraries(example ${CONAN_LIBS})
+target_include_directories(example PRIVATE ${CONAN_INCLUDE_DIRS_ITK})
+target_link_libraries(example ${CONAN_LIBS} ${CMAKE_DL_LIBS})
