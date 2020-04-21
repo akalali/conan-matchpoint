@@ -9,8 +9,14 @@ class ItkConan(ConanFile):
     description = "Insight Segmentation and Registration Toolkit"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
-    options = {"shared": [True, False]}
-    default_options = {"shared": False}
+    options = {
+        "shared": [True, False],
+        "fPIC": [True, False]
+    }
+    default_options = {
+        "shared": True,
+        "fPIC": True
+    }
     short_paths = True
 
     _build_folder = "build"
@@ -35,6 +41,10 @@ class ItkConan(ConanFile):
         return cmake
 
 # PUBLIC FUNCTIONS USED BY CONAN
+    def config_options(self):
+        if self.settings.os == "Windows":
+            del self.options.fPIC
+
     def source(self):
         self.run("git clone --depth 1 --branch v4.13.2 https://github.com/InsightSoftwareConsortium/ITK.git")
 
