@@ -20,6 +20,7 @@ class MatchpointConan(ConanFile):
         "shared": True,
         "fPIC": True
     }
+    short_paths = True
     requires = "itk/4.13.2"
 
     _requirement_options = {"itk:shared": True}
