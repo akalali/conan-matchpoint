@@ -37,7 +37,7 @@ class MatchpointConan(ConanFile):
         cmake = CMake(self)
         cmake.definitions["BUILD_SHARED_LIBS"] = self.options.shared
         cmake.definitions["BUILD_TESTING"] = "ON"
-        cmake.definitions["ITK_DIR"] = itk_libpath
+        cmake.definitions["CMAKE_PREFIX_PATH"] = itk_libpath
 
         cmake.configure(source_folder = self._source_folder, build_folder = self._build_folder)
         return cmake
