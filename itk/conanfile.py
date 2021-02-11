@@ -25,17 +25,9 @@ class ItkConan(ConanFile):
 # PRIVATE FUNCTIONS
     def _configure_cmake(self):
         cmake = CMake(self)
-        cmake.definitions["BUILD_EXAMPLES"] = "OFF"
         cmake.definitions["BUILD_SHARED_LIBS"] = self.options.shared
         cmake.definitions["BUILD_TESTING"] = "OFF"
         cmake.definitions["BUILD_DOCUMENTATION"] = "OFF"
-
-        cmake.definitions["Module_IsotropicWavelets"] = "ON"
-        cmake.definitions["Module_ITKOpenJPEG"] = "ON"
-        cmake.definitions["Module_ITKReview"] = "ON"
-
-        cmake.definitions["ITK_USE_SYSTEM_GDCM"] = "OFF" # switch to ON
-        cmake.definitions["ITK_USE_SYSTEM_HDF5"] = "OFF" # switch to ON
 
         cmake.configure(source_folder = self._source_folder, build_folder = self._build_folder)
         return cmake
