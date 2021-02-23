@@ -21,7 +21,7 @@ class MatchpointConan(ConanFile):
         "fPIC": True
     }
     short_paths = True
-    requires = "itk/4.13.2@dkfz/testing"
+    requires = "itk/4.13.3@dkfz/testing"
 
     _requirement_options = {"itk:shared": False}
     default_options.update(_requirement_options)
