@@ -14,7 +14,7 @@ class ItkConan(ConanFile):
         "fPIC": [True, False]
     }
     default_options = {
-        "shared": False,
+        "shared": True,
         "fPIC": True
     }
     short_paths = True

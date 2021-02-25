@@ -17,13 +17,13 @@ class MatchpointConan(ConanFile):
         "fPIC": [True, False]
     }
     default_options = {
-        "shared": False,
+        "shared": True,
         "fPIC": True
     }
     short_paths = True
     requires = "itk/4.13.3@dkfz/testing"
 
-    _requirement_options = {"itk:shared": False}
+    _requirement_options = {"itk:shared": True}
     default_options.update(_requirement_options)
 
     _build_folder = "build"
