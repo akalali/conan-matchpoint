@@ -45,10 +45,11 @@ class ItkConan(ConanFile):
         cmake.build()
 
     def package(self):
+        self.copy("LICENSE", dst = "licenses", src = self._source_folder)
         cmake = self._configure_cmake()
         cmake.install()
 
     def package_info(self):
-        self.cpp_info.builddirs = ['lib/cmake/ITK-4.13']
+        self.cpp_info.builddirs.append('lib/cmake/ITK-4.13')
         self.cpp_info.includedirs.append('include/ITK-4.13')
         self.cpp_info.libs = tools.collect_libs(self)
