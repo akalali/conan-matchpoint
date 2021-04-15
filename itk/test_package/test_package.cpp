@@ -1,10 +1,10 @@
-#include "ITK-4.13/itkLightObject.h"
+#include "itkLightObject.h"
 #include <iostream>
 
 class Test : public itk::LightObject
 {
  public:
- 
+
   typedef itk::SmartPointer<Test> Pointer;
   static Pointer New() { return new Test(); }
   const char *GetNameOfClass() { return "Test"; }
