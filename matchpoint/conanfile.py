@@ -49,6 +49,7 @@ class MatchpointConan(ConanFile):
 
     def source(self):
         self.run("git clone --depth 1 https://github.com/MIC-DKFZ/MatchPoint.git")
+        self.run("cd MatchPoint && git checkout a47d5558549514a475640b8652a8d337d33d9901")
 
     def build(self):
         cmake = self._configure_cmake()
