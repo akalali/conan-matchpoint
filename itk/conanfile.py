@@ -37,6 +37,10 @@ class ItkConan(ConanFile):
         if self.settings.os == "Windows":
             del self.options.fPIC
 
+    def configure(self):
+        if self.options.shared:
+            del self.options.fPIC
+
     def source(self):
         self.run("git clone --depth 1 --branch v4.13.3 https://github.com/InsightSoftwareConsortium/ITK.git")
 
@@ -52,4 +56,6 @@ class ItkConan(ConanFile):
     def package_info(self):
         self.cpp_info.builddirs.append('lib/cmake/ITK-4.13')
         self.cpp_info.includedirs.append('include/ITK-4.13')
+
         self.cpp_info.libs = tools.collect_libs(self)
+        self.cpp_info.name = "ITK"
